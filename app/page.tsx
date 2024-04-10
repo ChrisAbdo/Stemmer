@@ -39,7 +39,7 @@ export default function Home() {
       {loading && <p>Loading your stems &rparr; this may take a while...</p>}
       BASS: {genData.bass || "No data yet"}
       <br />
-      DRUMS: {genData.drums || "No data yet"}
+      DRUMSs: {genData.drums || "No data yet"}
       <br />
       VOCALS: {genData.vocals || "No data yet"}
     </div>
