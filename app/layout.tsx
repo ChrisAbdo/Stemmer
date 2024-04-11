@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { ThemeProvider } from "@/lib/theme-provider";
 import Navbar from "@/components/layout/navbar";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
         >
           <Navbar />
           {children}
+          <Toaster position="top-center" />
         </ThemeProvider>
       </body>
     </html>
