@@ -19,6 +19,12 @@ export default function Home() {
   const [audioUrlValue, setAudioUrlValue] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [genData, setGenData] = React.useState({} as any);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+
+  const [isVocalsMuted, setVocalsMuted] = React.useState(false);
+  const [isDrumsMuted, setDrumsMuted] = React.useState(false);
+  const [isBassMuted, setBassMuted] = React.useState(false);
+  const [isOtherMuted, setOtherMuted] = React.useState(false);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -39,6 +45,16 @@ export default function Home() {
     }
   }, [uploadedUrl]);
 
+  React.useEffect(() => {
+    const audioElements = document.getElementsByTagName("audio");
+    for (let i = 0; i < audioElements.length; i++) {
+      if (isPlaying) {
+        audioElements[i].play();
+      } else {
+        audioElements[i].pause();
+      }
+    }
+  }, [isPlaying]);
   return (
     <div className="bg-background">
       <div className="relative isolate px-6 pt-14 lg:px-8">
@@ -77,16 +93,90 @@ export default function Home() {
                 </DrawerContent>
               </Drawer>
             </div>
-            {uploadedUrl && <p>Uploaded URL: {uploadedUrl}</p>}
-            <br />
+
             {loading && (
               <p>Loading your stems &rparr; this may take a while...</p>
             )}
-            BASS: {genData.bass || "No data yet"}
-            <br />
-            DRUMSs: {genData.drums || "No data yet"}
-            <br />
-            VOCALS: {genData.vocals || "No data yet"}
+            <Button onClick={() => setIsPlaying(!isPlaying)}>
+              {isPlaying ? "Pause" : "Play"}
+            </Button>
+            <div>
+              BASS
+              <div
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  backgroundColor: "black",
+                  borderRadius: "50%",
+                }}
+                onClick={() => {
+                  setBassMuted(!isBassMuted);
+                }}
+              >
+                <audio
+                  src={genData.bass}
+                  autoPlay={isPlaying}
+                  muted={isBassMuted}
+                />
+              </div>
+            </div>
+            <div>
+              DRUMS
+              <div
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  backgroundColor: "black",
+                  borderRadius: "50%",
+                }}
+                onClick={() => {
+                  setDrumsMuted(!isDrumsMuted);
+                }}
+              >
+                <audio
+                  src={genData.drums}
+                  autoPlay={isPlaying}
+                  muted={isDrumsMuted}
+                />
+              </div>
+            </div>
+            <div>
+              VOCALS
+              <div
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  backgroundColor: "black",
+                  borderRadius: "50%",
+                }}
+                onClick={() => {
+                  setVocalsMuted(!isVocalsMuted);
+                }}
+              >
+                <audio
+                  src={genData.vocals}
+                  autoPlay={isPlaying}
+                  muted={isVocalsMuted}
+                />
+              </div>
+            </div>
+            <div>
+              OTHER
+              <div
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  backgroundColor: "black",
+                  borderRadius: "50%",
+                }}
+              >
+                <audio
+                  src={genData.other}
+                  autoPlay={isPlaying}
+                  muted={isOtherMuted}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
