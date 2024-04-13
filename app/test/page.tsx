@@ -5,6 +5,8 @@
   other: 'https://replicate.delivery/pbxt/MYXzWwLSbrZvORueS3FPj8NyisPIlQNe9T3JHHfZ7l5LHyTlA/other.mp3',
   vocals: 'https://replicate.delivery/pbxt/LhbfIVeFEVt83kQfEUQTU8DUwJ6AVfl2aau3IfaFKjyhcIPVC/vocals.mp3'
 }
+
+https://replicate.delivery/pbxt/LflQA55n3fgD30ZTeg9Pgj8FO2AZt4UV4A25TgKCGwiDIjTlA/drums.mp3
 */
 
 // TO DO: CONDITIONALS FOR INSTURMENTS
@@ -17,7 +19,7 @@ export default function Home() {
   const audioContextRef = useRef(null);
   const analyserRef = useRef(null);
   const dataArrayRef = useRef(null);
-  const [visualSize, setVisualSize] = useState(50);
+  const [scale, setScale] = useState(1); // Start with no scaling
 
   const initAudioAndPlay = async () => {
     if (!audioRef.current) return;
@@ -26,7 +28,7 @@ export default function Home() {
       const audioContext = new AudioContext();
       audioContextRef.current = audioContext;
       const analyser = audioContext.createAnalyser();
-      analyser.fftSize = 1024; // Larger FFT size for more detailed frequency data
+      analyser.fftSize = 2048; // Higher FFT size for finer granularity
       analyserRef.current = analyser;
       const bufferLength = analyser.frequencyBinCount;
       dataArrayRef.current = new Uint8Array(bufferLength);
@@ -51,17 +53,17 @@ export default function Home() {
       analyserRef.current.getByteFrequencyData(dataArrayRef.current);
 
       let maxVolume = 0;
-      let totalVolume = 0;
       for (let i = 0; i < dataArrayRef.current.length; i++) {
-        const volume = dataArrayRef.current[i];
-        totalVolume += volume;
-        if (volume > maxVolume) maxVolume = volume;
+        if (dataArrayRef.current[i] > maxVolume) {
+          maxVolume = dataArrayRef.current[i];
+        }
       }
 
-      const averageVolume = totalVolume / dataArrayRef.current.length;
-      const size = Math.max(50, maxVolume * 0.75); // Scale size change dynamically
+      // Update the scale based on maxVolume, scaling it between 1 and 1.5 for visual impact
+      // Halve the dynamic range by dividing by 256 instead of 128
+      const newScale = 1 + maxVolume / 256; // Scale dynamically based on volume, but with reduced impact
+      setScale(newScale);
 
-      setVisualSize(size);
       requestAnimationFrame(draw);
     };
 
@@ -72,11 +74,12 @@ export default function Home() {
     <div>
       <div
         style={{
-          width: `${visualSize}px`,
-          height: `${visualSize}px`,
+          width: "50px", // Constant base size
+          height: "50px",
           backgroundColor: "black",
           borderRadius: "50%",
-          transition: "width 0.3s ease-in-out, height 0.3s ease-in-out",
+          transition: "transform 0.1s ease-in-out",
+          transform: `scale(${scale})`, // Apply dynamic scaling
         }}
         onClick={initAudioAndPlay}
       >
