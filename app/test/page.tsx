@@ -9,7 +9,7 @@
 https://replicate.delivery/pbxt/LflQA55n3fgD30ZTeg9Pgj8FO2AZt4UV4A25TgKCGwiDIjTlA/drums.mp3
 */
 
-// TO DO: CONDITIONALS FOR INSTURMENTS
+// TO DO: CONDITIONALS FOR INSTURMENTS so other show up if returns null
 
 "use client";
 import React, { useRef, useEffect, useState } from "react";
