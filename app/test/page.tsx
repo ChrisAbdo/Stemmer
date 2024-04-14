@@ -14,21 +14,32 @@ https://replicate.delivery/pbxt/LflQA55n3fgD30ZTeg9Pgj8FO2AZt4UV4A25TgKCGwiDIjTl
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 
-export default function Home() {
+export default function Visualizer({
+  audioUrl,
+  isPlaying,
+  mute,
+  onToggleMute,
+}: {
+  audioUrl: string;
+  mute: boolean;
+  onToggleMute: () => void;
+}) {
+  // Add mute prop and optional onToggleMute handler
+  // Add mute prop and optional onToggleMute handler
   const audioRef = useRef(null);
   const audioContextRef = useRef(null);
   const analyserRef = useRef(null);
   const dataArrayRef = useRef(null);
-  const [scale, setScale] = useState(1); // Start with no scaling
+  const [scale, setScale] = useState(1);
 
   const initAudioAndPlay = async () => {
     if (!audioRef.current) return;
 
     if (!audioContextRef.current) {
       const audioContext = new AudioContext();
-      audioContextRef.current = audioContext;
+      audioContextRef.current = new AudioContext();
       const analyser = audioContext.createAnalyser();
-      analyser.fftSize = 2048; // Higher FFT size for finer granularity
+      analyser.fftSize = 2048;
       analyserRef.current = analyser;
       const bufferLength = analyser.frequencyBinCount;
       dataArrayRef.current = new Uint8Array(bufferLength);
@@ -45,7 +56,11 @@ export default function Home() {
     audioRef.current.play();
     visualize();
   };
-
+  useEffect(() => {
+    if (isPlaying) {
+      initAudioAndPlay();
+    }
+  }, [isPlaying]);
   const visualize = () => {
     if (!analyserRef.current || !dataArrayRef.current) return;
 
@@ -59,9 +74,7 @@ export default function Home() {
         }
       }
 
-      // Update the scale based on maxVolume, scaling it between 1 and 1.5 for visual impact
-      // Halve the dynamic range by dividing by 256 instead of 128
-      const newScale = 1 + maxVolume / 256; // Scale dynamically based on volume, but with reduced impact
+      const newScale = 1 + maxVolume / 256;
       setScale(newScale);
 
       requestAnimationFrame(draw);
@@ -70,25 +83,29 @@ export default function Home() {
     requestAnimationFrame(draw);
   };
 
+  const handleOnClick = () => {
+    initAudioAndPlay();
+    if (onToggleMute) onToggleMute(); // If an external toggle handler is provided, call it
+  };
+
   return (
-    <div>
-      <div
-        style={{
-          width: "50px", // Constant base size
-          height: "50px",
-          backgroundColor: "black",
-          borderRadius: "50%",
-          transition: "transform 0.1s ease-in-out",
-          transform: `scale(${scale})`, // Apply dynamic scaling
-        }}
-        onClick={initAudioAndPlay}
-      >
-        <audio
-          ref={audioRef}
-          crossOrigin="anonymous"
-          src="https://replicate.delivery/pbxt/LflQA55n3fgD30ZTeg9Pgj8FO2AZt4UV4A25TgKCGwiDIjTlA/drums.mp3"
-        />
-      </div>
+    <div
+      style={{
+        width: "50px",
+        height: "50px",
+        backgroundColor: "black",
+        borderRadius: "50%",
+        transition: "transform 0.1s ease-in-out",
+        transform: `scale(${scale})`,
+      }}
+      onClick={handleOnClick} // Add click handler for playing and optional muting
+    >
+      <audio
+        ref={audioRef}
+        crossOrigin="anonymous"
+        src={audioUrl}
+        muted={mute} // Use the mute prop
+      />
     </div>
   );
 }

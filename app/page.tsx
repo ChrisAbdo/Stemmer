@@ -1,3 +1,14 @@
+/*
+{
+  bass: 'https://replicate.delivery/pbxt/f09dTehfTTV9uJviVHapWUKky5Hf0EFVOgjrhfzpZPBicIPVC/bass.mp3',
+  drums: 'https://replicate.delivery/pbxt/Xqt3j7IlM0Z4O9Z273YfOW7WSDZ9A6oT3Db3qCCjfY7lD5pSA/drums.mp3',
+  other: 'https://replicate.delivery/pbxt/MYXzWwLSbrZvORueS3FPj8NyisPIlQNe9T3JHHfZ7l5LHyTlA/other.mp3',
+  vocals: 'https://replicate.delivery/pbxt/LhbfIVeFEVt83kQfEUQTU8DUwJ6AVfl2aau3IfaFKjyhcIPVC/vocals.mp3'
+}
+
+https://replicate.delivery/pbxt/LflQA55n3fgD30ZTeg9Pgj8FO2AZt4UV4A25TgKCGwiDIjTlA/drums.mp3
+*/
+
 "use client";
 import React from "react";
 import {
@@ -12,6 +23,7 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import Uploader from "@/components/uploader";
+import Visualizer from "./test/page";
 
 export default function Home() {
   const [isDrawerOpen, setDrawerOpen] = React.useState(false);
@@ -101,83 +113,31 @@ export default function Home() {
             <Button onClick={() => setIsPlaying(!isPlaying)}>
               {isPlaying ? "Pause" : "Play"}
             </Button>
-            <div>
-              BASS
-              <div
-                style={{
-                  width: "100px",
-                  height: "100px",
-                  backgroundColor: "black",
-                  borderRadius: "50%",
-                }}
-                onClick={() => {
-                  setBassMuted(!isBassMuted);
-                }}
-              >
-                <audio
-                  src={genData.bass}
-                  autoPlay={isPlaying}
-                  muted={isBassMuted}
-                />
-              </div>
-            </div>
-            <div>
-              DRUMS
-              <div
-                style={{
-                  width: "100px",
-                  height: "100px",
-                  backgroundColor: "black",
-                  borderRadius: "50%",
-                }}
-                onClick={() => {
-                  setDrumsMuted(!isDrumsMuted);
-                }}
-              >
-                <audio
-                  src={genData.drums}
-                  autoPlay={isPlaying}
-                  muted={isDrumsMuted}
-                />
-              </div>
-            </div>
-            <div>
-              VOCALS
-              <div
-                style={{
-                  width: "100px",
-                  height: "100px",
-                  backgroundColor: "black",
-                  borderRadius: "50%",
-                }}
-                onClick={() => {
-                  setVocalsMuted(!isVocalsMuted);
-                }}
-              >
-                <audio
-                  src={genData.vocals}
-                  autoPlay={isPlaying}
-                  muted={isVocalsMuted}
-                />
-              </div>
-            </div>
-            <div>
-              OTHER
-              <div
-                style={{
-                  width: "100px",
-                  height: "100px",
-                  backgroundColor: "black",
-                  borderRadius: "50%",
-                }}
-              >
-                <audio
-                  src={genData.other}
-                  autoPlay={isPlaying}
-                  muted={isOtherMuted}
-                />
-              </div>
-            </div>
+
+            <Visualizer
+              audioUrl={genData.other}
+              mute={isOtherMuted}
+              onToggleMute={() => setOtherMuted(!isOtherMuted)}
+              isPlaying={isPlaying}
+            />
+            <Visualizer
+              audioUrl={genData.bass}
+              mute={isBassMuted}
+              onToggleMute={() => setBassMuted(!isBassMuted)}
+              isPlaying={isPlaying}
+            />
+            <Visualizer
+              audioUrl={genData.vocals}
+              mute={isVocalsMuted}
+              onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
+              isPlaying={isPlaying}
+            />
+            <Visualizer
+              audioUrl={genData.drums}
+              mute={isDrumsMuted}
+              onToggleMute={() => setDrumsMuted(!isDrumsMuted)}
+              isPlaying={isPlaying}
+            />
           </div>
         </div>
       </div>
