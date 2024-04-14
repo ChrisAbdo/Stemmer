@@ -115,25 +115,13 @@ export default function Home() {
             </Button>
 
             <Visualizer
-              audioUrl={genData.other}
-              mute={isOtherMuted}
-              onToggleMute={() => setOtherMuted(!isOtherMuted)}
-              isPlaying={isPlaying}
-            />
-            <Visualizer
-              audioUrl={genData.bass}
-              mute={isBassMuted}
-              onToggleMute={() => setBassMuted(!isBassMuted)}
-              isPlaying={isPlaying}
-            />
-            <Visualizer
-              audioUrl={genData.vocals}
+              audioUrl="https://replicate.delivery/pbxt/LhbfIVeFEVt83kQfEUQTU8DUwJ6AVfl2aau3IfaFKjyhcIPVC/vocals.mp3"
               mute={isVocalsMuted}
               onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
               isPlaying={isPlaying}
             />
             <Visualizer
-              audioUrl={genData.drums}
+              audioUrl="https://replicate.delivery/pbxt/Xqt3j7IlM0Z4O9Z273YfOW7WSDZ9A6oT3Db3qCCjfY7lD5pSA/drums.mp3"
               mute={isDrumsMuted}
               onToggleMute={() => setDrumsMuted(!isDrumsMuted)}
               isPlaying={isPlaying}
