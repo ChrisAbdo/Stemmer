@@ -9,6 +9,8 @@
 https://replicate.delivery/pbxt/LflQA55n3fgD30ZTeg9Pgj8FO2AZt4UV4A25TgKCGwiDIjTlA/drums.mp3
 */
 
+// TODO: ADD A DEFAULT SONG TO PLAY WHEN NO SONG IS UPLOADED
+
 "use client";
 import React from "react";
 import {
@@ -169,14 +171,14 @@ export default function Home() {
     //     </div>
     //   </div>
     // </div>
-    <section className="w-full py-12 md:py-24 lg:py-32">
+    <section className="w-full py-6 md:py-12 lg:py-16">
       <div className="container flex flex-col items-center justify-center gap-4 px-4 text-center md:px-6">
         <div className="space-y-3">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             Stemmer
           </h1>
           <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-            Deconstruct your favorite songs into their individual components.
+            Deconstruct your favorite songs into stems and remix them.
           </p>
         </div>
 
