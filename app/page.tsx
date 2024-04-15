@@ -38,6 +38,16 @@ export default function Home() {
   const [isBassMuted, setBassMuted] = React.useState(false);
   const [isOtherMuted, setOtherMuted] = React.useState(false);
 
+  // const extractedStems = {
+  //   vocals:
+  //     "https://replicate.delivery/pbxt/1gSfimMQQXUjJq0cvf9SF75brz4dAjamrv2dSIop77KyKfUlA/vocals.mp3",
+  //   drums:
+  //     "https://replicate.delivery/pbxt/heGVOwwfnpueRocVAZJnid05blF5exIawzaehBwxNfgisynqE/drums.mp3",
+  //   bass: "https://replicate.delivery/pbxt/f8MYlycITaS2X68pMxfL2fCZr0JHNb5IjeAVf8jGfOZssynqE/bass.mp3",
+  //   other:
+  //     "https://replicate.delivery/pbxt/V9NLOgeGpV2hG6RYXuNJma8DZ8wAnLRpA6DjrKopnkeyKfUlA/other.mp3",
+  // };
+
   const handleSubmit = async () => {
     setLoading(true);
     const response = await fetch("/api/demucs", {
@@ -130,13 +140,25 @@ export default function Home() {
             </Button>
 
             <Visualizer
-              audioUrl="https://replicate.delivery/pbxt/LhbfIVeFEVt83kQfEUQTU8DUwJ6AVfl2aau3IfaFKjyhcIPVC/vocals.mp3"
+              audioUrl={genData.other}
+              mute={isOtherMuted}
+              onToggleMute={() => setOtherMuted(!isOtherMuted)}
+              isPlaying={isPlaying}
+            />
+            <Visualizer
+              audioUrl={genData.bass}
+              mute={isBassMuted}
+              onToggleMute={() => setBassMuted(!isBassMuted)}
+              isPlaying={isPlaying}
+            />
+            <Visualizer
+              audioUrl={genData.vocals}
               mute={isVocalsMuted}
               onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
               isPlaying={isPlaying}
             />
             <Visualizer
-              audioUrl="https://replicate.delivery/pbxt/Xqt3j7IlM0Z4O9Z273YfOW7WSDZ9A6oT3Db3qCCjfY7lD5pSA/drums.mp3"
+              audioUrl={genData.drums}
               mute={isDrumsMuted}
               onToggleMute={() => setDrumsMuted(!isDrumsMuted)}
               isPlaying={isPlaying}
