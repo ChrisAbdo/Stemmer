@@ -28,6 +28,7 @@ import Uploader from "@/components/uploader";
 import Visualizer from "@/components/visualizer";
 import Link from "next/link";
 import { AudioLines } from "lucide-react";
+import { PauseIcon, PlayIcon } from "@radix-ui/react-icons";
 
 export default function Home() {
   const [isDrawerOpen, setDrawerOpen] = React.useState(false);
@@ -155,12 +156,12 @@ export default function Home() {
     //           onToggleMute={() => setBassMuted(!isBassMuted)}
     //           isPlaying={isPlaying}
     //         />
-    //         <Visualizer
-    //           audioUrl={genData.vocals}
-    //           mute={isVocalsMuted}
-    //           onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
-    //           isPlaying={isPlaying}
-    //         />
+    // <Visualizer
+    //   audioUrl={genData.vocals}
+    //   mute={isVocalsMuted}
+    //   onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
+    //   isPlaying={isPlaying}
+    // />
     //         <Visualizer
     //           audioUrl={genData.drums}
     //           mute={isDrumsMuted}
@@ -215,6 +216,49 @@ export default function Home() {
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
+
+        {/* <h1>test</h1> */}
+
+        {/* VISUALIZER LAYOUT */}
+
+        <div className="mt-12" />
+        <Visualizer
+          audioUrl={genData.vocals}
+          mute={isVocalsMuted}
+          onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
+          isPlaying={isPlaying}
+        />
+        <div className="flex items-center space-x-16 mt-12 mb-12">
+          <Visualizer
+            audioUrl={genData.vocals}
+            mute={isVocalsMuted}
+            onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
+            isPlaying={isPlaying}
+          />
+          <Button
+            onClick={() => setIsPlaying(!isPlaying)}
+            size="icon"
+            variant="secondary"
+          >
+            {isPlaying ? (
+              <PauseIcon className="w-[1.2rem] h-[1.2rem]" />
+            ) : (
+              <PlayIcon className="w-[1.2rem] h-[1.2rem]" />
+            )}
+          </Button>
+          <Visualizer
+            audioUrl={genData.vocals}
+            mute={isVocalsMuted}
+            onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
+            isPlaying={isPlaying}
+          />
+        </div>
+        <Visualizer
+          audioUrl={genData.vocals}
+          mute={isVocalsMuted}
+          onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
+          isPlaying={isPlaying}
+        />
       </div>
     </section>
   );
