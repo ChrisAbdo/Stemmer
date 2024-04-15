@@ -10,7 +10,7 @@ import { FileMusic, MousePointer, MousePointerClick } from "lucide-react";
 export function Guide() {
   return (
     <Card className="w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto">
-      <CardHeader className="pb-2">
+      <CardHeader className="pb-2 flex">
         <CardTitle>Usage Guide</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-1">
@@ -19,7 +19,7 @@ export function Guide() {
           <div className="space-y-1">
             <p className="text-sm font-medium leading-none">Choose Your Song</p>
             <p className="text-sm text-muted-foreground">
-              Upload or choose from featured songs and previous uploads.
+              Upload or choose previous generations.
             </p>
           </div>
         </div>
