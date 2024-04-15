@@ -59,7 +59,7 @@ export default function Uploader({
         }).then(async (res) => {
           if (res.status === 200) {
             const { url } = (await res.json()) as PutBlobResult;
-            toast("File uploaded successfully to " + url);
+            toast("Generated URL. Processing audio...");
             if (typeof onUploadComplete === "function") {
               onUploadComplete(url);
             }

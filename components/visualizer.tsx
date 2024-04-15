@@ -83,27 +83,26 @@ export default function Visualizer({
 
   const handleOnClick = () => {
     initAudioAndPlay();
-    if (onToggleMute) onToggleMute(); // If an external toggle handler is provided, call it
+    if (onToggleMute) onToggleMute();
   };
 
   return (
     <div
       style={{
-        width: "50px",
-        height: "50px",
-        backgroundColor: "black",
-        borderRadius: "50%",
-        transition: "transform 0.1s ease-in-out",
+        transition: "transform 0.05s ease-in-out",
         transform: `scale(${scale})`,
       }}
-      onClick={handleOnClick} // Add click handler for playing and optional muting
+      className={`w-[50px] h-[50px] bg-primary cursor-pointer rounded-full ${
+        mute ? "bg-muted" : ""
+      }`}
+      onClick={handleOnClick}
     >
       <audio
         ref={audioRef}
         // CORS requires crossOrigin for external audio sources
         crossOrigin="anonymous"
         src={audioUrl}
-        muted={mute} // Use the mute prop
+        muted={mute}
       />
     </div>
   );

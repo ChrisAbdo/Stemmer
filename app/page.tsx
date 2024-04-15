@@ -29,6 +29,13 @@ import Visualizer from "@/components/visualizer";
 import Link from "next/link";
 import { AudioLines } from "lucide-react";
 import { PauseIcon, PlayIcon } from "@radix-ui/react-icons";
+import { Guide } from "@/components/guide";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function Home() {
   const [isDrawerOpen, setDrawerOpen] = React.useState(false);
@@ -172,94 +179,106 @@ export default function Home() {
     //     </div>
     //   </div>
     // </div>
-    <section className="w-full py-6 md:py-12 lg:py-16">
-      <div className="container flex flex-col items-center justify-center gap-4 px-4 text-center md:px-6">
-        <div className="space-y-3">
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Stemmer
-          </h1>
-          <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-            Deconstruct your favorite songs into stems and remix them.
-          </p>
-        </div>
-
-        {/* <Link
+    <>
+      <section className="w-full py-6 md:py-12 lg:py-16">
+        <div className="container flex flex-col items-center justify-center gap-4 px-4 text-center md:px-6">
+          <div className="space-y-3">
+            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+              Stemmer
+            </h1>
+            <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+              Deconstruct your favorite songs into stems and remix them.
+            </p>
+          </div>
+          {/* <Link
           className="inline-flex h-10 items-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
           href="#"
         >
           Download Now
         </Link> */}
-        <Drawer open={isDrawerOpen} onOpenChange={setDrawerOpen}>
-          <DrawerTrigger asChild>
-            <Button>
-              <AudioLines className="h-[1.2rem] w-[1.2rem] mr-2" />
-              Upload Song
+          <Drawer open={isDrawerOpen} onOpenChange={setDrawerOpen}>
+            <DrawerTrigger asChild>
+              <Button>
+                <AudioLines className="h-[1.2rem] w-[1.2rem] mr-2" />
+                Upload Song
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent className="h-2/3">
+              <DrawerHeader>
+                <DrawerTitle>Upload a song to split stems</DrawerTitle>
+                <DrawerDescription>
+                  Accepted file types: mp3, wav
+                </DrawerDescription>
+                <Uploader
+                  onUploadComplete={(url) => {
+                    setDrawerOpen(false);
+                    setUploadedUrl(url);
+                  }}
+                />{" "}
+              </DrawerHeader>
+              <DrawerFooter>
+                <DrawerClose>
+                  <Button variant="outline">Cancel</Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+          <div className="mt-12" />
+          {/* VISUALIZER LAYOUT */}
+
+          <h1>vocals</h1>
+          <Visualizer
+            audioUrl={genData.vocals}
+            mute={isVocalsMuted}
+            onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
+            isPlaying={isPlaying}
+          />
+
+          <div className="flex items-center space-x-20 mt-14 mb-14">
+            <div className="flex items-center space-x-4">
+              <h1>bass</h1>
+              <Visualizer
+                audioUrl={genData.bass}
+                mute={isBassMuted}
+                onToggleMute={() => setBassMuted(!isBassMuted)}
+                isPlaying={isPlaying}
+              />
+            </div>
+            <Button
+              onClick={() => setIsPlaying(!isPlaying)}
+              size="icon"
+              variant="secondary"
+            >
+              {isPlaying ? (
+                <PauseIcon className="w-[1.2rem] h-[1.2rem]" />
+              ) : (
+                <PlayIcon className="w-[1.2rem] h-[1.2rem]" />
+              )}
             </Button>
-          </DrawerTrigger>
-          <DrawerContent className="h-2/3">
-            <DrawerHeader>
-              <DrawerTitle>Upload a song to split stems</DrawerTitle>
-              <DrawerDescription>
-                Accepted file types: mp3, wav
-              </DrawerDescription>
-              <Uploader
-                onUploadComplete={(url) => {
-                  setDrawerOpen(false);
-                  setUploadedUrl(url);
-                }}
-              />{" "}
-            </DrawerHeader>
-            <DrawerFooter>
-              <DrawerClose>
-                <Button variant="outline">Cancel</Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-
-        {/* <h1>test</h1> */}
-
-        {/* VISUALIZER LAYOUT */}
-
-        <div className="mt-12" />
-        <Visualizer
-          audioUrl={genData.vocals}
-          mute={isVocalsMuted}
-          onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
-          isPlaying={isPlaying}
-        />
-        <div className="flex items-center space-x-16 mt-12 mb-12">
+            <div className="flex items-center space-x-4">
+              <Visualizer
+                audioUrl={genData.other}
+                mute={isOtherMuted}
+                onToggleMute={() => setOtherMuted(!isOtherMuted)}
+                isPlaying={isPlaying}
+              />
+              <h1>other</h1>
+            </div>
+          </div>
           <Visualizer
-            audioUrl={genData.vocals}
-            mute={isVocalsMuted}
-            onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
+            audioUrl={genData.drums}
+            mute={isDrumsMuted}
+            onToggleMute={() => setDrumsMuted(!isDrumsMuted)}
             isPlaying={isPlaying}
           />
-          <Button
-            onClick={() => setIsPlaying(!isPlaying)}
-            size="icon"
-            variant="secondary"
-          >
-            {isPlaying ? (
-              <PauseIcon className="w-[1.2rem] h-[1.2rem]" />
-            ) : (
-              <PlayIcon className="w-[1.2rem] h-[1.2rem]" />
-            )}
-          </Button>
-          <Visualizer
-            audioUrl={genData.vocals}
-            mute={isVocalsMuted}
-            onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
-            isPlaying={isPlaying}
-          />
+          <h1>drums</h1>
         </div>
-        <Visualizer
-          audioUrl={genData.vocals}
-          mute={isVocalsMuted}
-          onToggleMute={() => setVocalsMuted(!isVocalsMuted)}
-          isPlaying={isPlaying}
-        />
+      </section>
+      {/* <Guide /> */}
+
+      <div className="p-2">
+        <Guide />
       </div>
-    </section>
+    </>
   );
 }
