@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import Uploader from "@/components/uploader";
-import Visualizer from "./test/page";
+import Visualizer from "@/components/visualizer";
 
 export default function Home() {
   const [isDrawerOpen, setDrawerOpen] = React.useState(false);
@@ -59,15 +59,30 @@ export default function Home() {
 
   React.useEffect(() => {
     const audioElements = document.getElementsByTagName("audio");
+    const playPromises = [];
+
     for (let i = 0; i < audioElements.length; i++) {
       if (isPlaying) {
-        audioElements[i].play();
+        // Collect all play promises
+        playPromises.push(audioElements[i].play());
       } else {
         audioElements[i].pause();
+        audioElements[i].currentTime = 0; // Optionally reset the time to ensure all tracks start from the beginning
       }
     }
-  }, [isPlaying]);
 
+    if (isPlaying) {
+      Promise.all(playPromises)
+        .then(() => {
+          // All audio tracks have started playing
+          console.log("Playing");
+        })
+        .catch((error) => {
+          console.error("Error playing audio:", error);
+          // Handle any errors (e.g., user hasn't interacted with the document yet)
+        });
+    }
+  }, [isPlaying]);
   return (
     <div className="bg-background">
       <div className="relative isolate px-6 pt-14 lg:px-8">
@@ -80,7 +95,7 @@ export default function Home() {
               web stem player is a web application that allows you to separate
               the vocals, drums, bass, and other instruments from a song.
             </p>
-            <div className="mt-10 flex items-center justify-center">
+            <div className="mt-10 flex items -center justify-center">
               <Drawer open={isDrawerOpen} onOpenChange={setDrawerOpen}>
                 <DrawerTrigger asChild>
                   <Button>Upload Song</Button>
