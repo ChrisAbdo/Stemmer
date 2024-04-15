@@ -24,8 +24,6 @@ export default function Visualizer({
   mute: boolean;
   onToggleMute: () => void;
 }) {
-  // Add mute prop and optional onToggleMute handler
-  // Add mute prop and optional onToggleMute handler
   const audioRef = useRef(null);
   const audioContextRef = useRef(null);
   const analyserRef = useRef(null);
@@ -102,6 +100,7 @@ export default function Visualizer({
     >
       <audio
         ref={audioRef}
+        // CORS requires crossOrigin for external audio sources
         crossOrigin="anonymous"
         src={audioUrl}
         muted={mute} // Use the mute prop
