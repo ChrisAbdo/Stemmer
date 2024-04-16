@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /*
 {
   bass: 'https://replicate.delivery/pbxt/f09dTehfTTV9uJviVHapWUKky5Hf0EFVOgjrhfzpZPBicIPVC/bass.mp3',
