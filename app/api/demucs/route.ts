@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import Replicate from "replicate";
 
 const replicate = new Replicate({
-  auth: process.env.NEXT_PUBLIC_REPLICATE_API_TOKEN,
+  auth: "r8_aW52oOh9UWdQMXAwDAKsc4VlVzWo2fa11xyCP",
 });
 
 export async function POST(request: Request) {
